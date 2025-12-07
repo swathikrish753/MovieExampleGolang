@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"sync"
 
 	model "movieexample.com/metadata/pkg"
@@ -18,7 +19,7 @@ func New() *Repository {
 	}
 }
 
-func (r *Repository) Get(id string) (*model.Metadata, error) {
+func (r *Repository) Get(ctx context.Context, id string) (*model.Metadata, error) {
 	r.RLock()
 	defer r.RUnlock()
 
