@@ -47,3 +47,26 @@ func (g *RGateway) GetAggregatedRating(ctx context.Context, recordID model.Recor
 	return v, nil
 
 }
+
+func (g *RGateway) PutRating(ctx context.Context, recordID model.RecordID, recordType model.RecordType, rating *model.Rating) error {
+	req, err := http.NewRequest(http.MethodPut, g.addr+"/rating", nil)
+	if err != nil {
+		return err
+	}
+	req = req.WithContext(ctx)
+	values := req.URL.Query()
+	values.Add("id", string(recordID))
+	values.Add("type", string(recordType))
+	values.Add("userId", string(rating.UserID))
+	values.Add("value", fmt.Sprintf("%v", rating.Value))
+	req.URL.RawQuery = values.Encode()
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode/100 != 2 {
+		return fmt.Errorf("non-2xx response %v", resp)
+	}
+	return nil
+}
