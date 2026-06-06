@@ -11,7 +11,7 @@ import (
 var ErrNotFound = errors.New("not found")
 
 type metadataRepository interface {
-	Get(ctx context.Context, id string) (*model.Metadata, error)
+	Get(id string) (*model.Metadata, error)
 }
 
 type Controller struct {
@@ -19,10 +19,10 @@ type Controller struct {
 }
 
 func New(repo metadataRepository) *Controller {
-	return &Controller{repo: repo}
+	return &Controller{repo}
 }
 func (c *Controller) Get(ctx context.Context, id string) (*model.Metadata, error) {
-	res, err := c.repo.Get(ctx, id)
+	res, err := c.repo.Get(id)
 	if err != nil && errors.Is(err, repository.ErrNotFound) {
 		return nil, ErrNotFound
 	}
