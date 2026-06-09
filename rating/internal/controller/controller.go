@@ -11,7 +11,7 @@ var ErrNotFound = errors.New("ratings not found for a record")
 
 type RatingRepository interface {
 	Get(ctx context.Context, recordID model.RecordID, recordType model.RecordType) ([]model.Rating, error)
-	Put(ctx context.Context, recodID model.RecordID, recordType model.RecordType, rating *model.Rating) error
+	Put(ctx context.Context, recodID model.RecordID, recordType model.RecordType, rating model.Rating) error
 }
 
 type Controller struct {
@@ -37,6 +37,6 @@ func (c *Controller) GetAggregatedRating(ctx context.Context, recordID model.Rec
 
 }
 
-func (c *Controller) PutRating(ctx context.Context, recordID model.RecordID, recordType model.RecordType, rating *model.Rating) error {
+func (c *Controller) PutRating(ctx context.Context, recordID model.RecordID, recordType model.RecordType, rating model.Rating) error {
 	return c.PutRating(ctx, recordID, recordType, rating)
 }

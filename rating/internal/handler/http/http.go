@@ -47,7 +47,7 @@ func (h *Handler) Handle(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		if err := h.ctrl.PutRating(r.Context(), recordID, recordType, &model.Rating{
+		if err := h.ctrl.PutRating(r.Context(), recordID, recordType, model.Rating{
 			UserID: userID,
 			Value:  model.RatingValue(v),
 		}); err != nil {
